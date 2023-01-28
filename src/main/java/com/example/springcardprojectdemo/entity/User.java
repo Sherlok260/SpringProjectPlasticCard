@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -21,43 +22,49 @@ import java.util.Set;
 @Data
 @Entity(name = "users")
 @EntityListeners(AuditingEntityListener.class)
+@Transactional
 public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "firstName")
     private String firstName;
+    @Column(name = "lastName")
     private String lastName;
-    @Column(unique = true)
+    @Column(name = "email", unique = true)
     private String email;
+    @Column(name = "password")
     private String password;
 
     private boolean accountNonExpired = true;
     private boolean accountNonLocked = true;
     private boolean credentialsNonExpired = true;
-    private boolean enabled = true;
-    public User(String firstName, String lastName, String email, String password, Set<Role> roles, boolean enabled) {
+    private boolean enabled = false;
+    private boolean verified = false;
+    public User(String firstName, String lastName, String email, String password, Role roles, boolean enabled, boolean verified) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.password = password;
         this.roles = roles;
         this.enabled = enabled;
+        this.verified = verified;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Role> roles;
+    @OneToOne(fetch = FetchType.EAGER)
+    private Role roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         List<GrantedAuthority> grantedAuthorityList = new ArrayList<>();
-        for (Role role: this.roles) {
+
             GrantedAuthority grantedAuthority = new SimpleGrantedAuthority(
-                    "ROLE_"+role.getName());
+                    "ROLE_"+roles.getName());
             grantedAuthorityList.add(grantedAuthority);
-        }
+
 
         return grantedAuthorityList;
 //        return roles;

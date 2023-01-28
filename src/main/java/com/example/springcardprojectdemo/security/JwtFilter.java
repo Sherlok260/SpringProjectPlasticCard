@@ -23,6 +23,8 @@ public class JwtFilter extends OncePerRequestFilter {
     @Autowired
     AuthService authService;
 
+    public static String getEmailWithToken;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader("Authorization");
@@ -32,8 +34,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
             if (validateToken) {
                 String username = jwtProvider.getUsernameFromToken(token);
-                System.out.println(username);
-
+//                System.out.println(username);
+                getEmailWithToken = username;
                 UserDetails userDetails = authService.loadUserByUsername(username);
 
                 UsernamePasswordAuthenticationToken passwordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

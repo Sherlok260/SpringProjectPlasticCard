@@ -3,8 +3,6 @@ package com.example.springcardprojectdemo.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
-import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,20 +13,17 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Role implements GrantedAuthority {
+public class Verify {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private Long verifyCode;
+    private String email;
 
-    @Override
-    public String getAuthority() {
-        return this.name;
-    }
-
-    public Role(String name) {
-        this.name = name;
+    public Verify(Long verifyCode, String email) {
+        this.verifyCode = verifyCode;
+        this.email = email;
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin
 public class AuthController {
 
     @Autowired
@@ -44,7 +45,6 @@ public class AuthController {
     @PreAuthorize(value = "hasAnyRole('ADMIN', 'USER')")
     @GetMapping("/hello")
     public HttpEntity<?> hello() {
-
         return ResponseEntity.ok("hello");
     }
 

@@ -35,10 +35,11 @@ public class DataLoader implements CommandLineRunner {
         if (initMode.equals("always")) {
             Role admin = roleRepository.save(new Role(1L, "ADMIN"));
             Role user = roleRepository.save(new Role(2L, "USER"));
+            Role guest = roleRepository.save(new Role(3L, "GUEST"));
 
             User user1 = new User("Shaxzod", "Murtozaqulov", "shaxzodmailsender@gmail.com",
                             passwordEncoder.encode("12345"),
-                            new HashSet<>(Arrays.asList(admin, user)), true);
+                            admin, true, true);
 
             userRepository.save(user1);
         }
