@@ -3,7 +3,6 @@ package com.example.springcardprojectdemo.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.Entity;

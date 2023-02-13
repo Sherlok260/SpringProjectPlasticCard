@@ -2,7 +2,6 @@ package com.example.springcardprojectdemo.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,7 +13,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 //@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
@@ -67,7 +65,6 @@ public class User implements UserDetails {
 
 
         return grantedAuthorityList;
-//        return roles;
     }
 
     @Override
