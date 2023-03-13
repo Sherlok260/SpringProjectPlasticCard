@@ -10,10 +10,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-
 @Component
 public class DataLoader implements CommandLineRunner {
 
@@ -37,9 +33,11 @@ public class DataLoader implements CommandLineRunner {
             Role user = roleRepository.save(new Role(2L, "USER"));
             Role guest = roleRepository.save(new Role(3L, "GUEST"));
 
-            User user1 = new User("Shaxzod", "Murtozaqulov", "shaxzodmailsender@gmail.com",
+            User user1 = new User("Shaxzod", "Murtozaqulov", "shaxzodemailsender@gmail.com",
                             passwordEncoder.encode("12345"),
-                            admin, true, true);
+                            admin,
+                            true, true);
+            user1.setRole(user);
 
             userRepository.save(user1);
         }

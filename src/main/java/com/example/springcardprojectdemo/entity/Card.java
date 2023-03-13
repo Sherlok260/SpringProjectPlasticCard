@@ -23,7 +23,6 @@ public class Card {
     private String exp_date;
     private Integer code;
     private Integer balance;
-    private String user_email;
-
+    private String owner;
 
 }

@@ -8,9 +8,8 @@ import java.util.Date;
 
 @Component
 public class JwtProvider {
-    long expireTime = 36000 * 100;
+    long expireTime = 60 * 60 * 1000;
     String secretKey = "nimagaaaap";
-
 
     public String generateToken(String email) {
         return Jwts

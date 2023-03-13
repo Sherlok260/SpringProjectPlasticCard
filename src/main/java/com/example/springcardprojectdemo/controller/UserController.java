@@ -23,12 +23,17 @@ public class UserController {
         return ResponseEntity.ok(apiResponse);
     }
 
-
     @PreAuthorize(value = "hasRole('GUEST')")
     @PostMapping("/verify")
     public HttpEntity<?> verify(@RequestParam Long code) {
         ApiResponse apiResponse = userService.verify(code);
         return ResponseEntity.ok(apiResponse);
+    }
+
+    @PreAuthorize(value = "hasRole('ADMIN')")
+    @GetMapping("/getUsers")
+    public HttpEntity<?> getAllUsers() {
+        return ResponseEntity.ok().body(userService.getUsers());
     }
 
 }

@@ -6,12 +6,14 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 public interface VerifyRepository extends JpaRepository<Verify, Long> {
-    public Verify findByEmail(String email);
+    Optional<Verify> findByEmail(String email);
 
     @Transactional
     @Modifying
     @Query("delete from Verify v where v.email = ?1")
-    public void deleteByEmail(String email);
+    void deleteByEmail(String email);
 
 }

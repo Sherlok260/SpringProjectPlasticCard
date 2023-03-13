@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class CardDto {
     private String company;
-    private String type;
+    private String typee;
     private Integer code;
 }
