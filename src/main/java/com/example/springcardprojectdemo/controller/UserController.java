@@ -20,14 +20,14 @@ public class UserController {
     @PostMapping
     public HttpEntity<?> register(@RequestBody RegisterDto dto) {
         ApiResponse apiResponse = userService.register(dto);
-        return ResponseEntity.ok(apiResponse);
+        return ResponseEntity.ok().body(apiResponse);
     }
 
     @PreAuthorize(value = "hasRole('GUEST')")
     @PostMapping("/verify")
     public HttpEntity<?> verify(@RequestParam Long code) {
         ApiResponse apiResponse = userService.verify(code);
-        return ResponseEntity.ok(apiResponse);
+        return ResponseEntity.ok().body(apiResponse);
     }
 
     @PreAuthorize(value = "hasRole('ADMIN')")

@@ -4,6 +4,7 @@ import com.example.springcardprojectdemo.payload.ApiResponse;
 import com.example.springcardprojectdemo.payload.CardDto;
 import com.example.springcardprojectdemo.payload.TransferDto;
 import com.example.springcardprojectdemo.service.CardService;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
@@ -22,21 +23,28 @@ public class CardController {
     @PreAuthorize(value = "hasRole('USER')")
     public HttpEntity<?> createCard(@RequestBody CardDto dto) {
         ApiResponse apiResponse = cardService.createCard(dto);
-        return ResponseEntity.ok(apiResponse);
+        return ResponseEntity.ok().body(apiResponse);
     }
 
     @PostMapping("/transfer")
     @PreAuthorize(value = "hasRole('USER')")
     public HttpEntity<?> transferMoney(@RequestBody TransferDto dto) {
         ApiResponse apiResponse = cardService.v_transfer(dto);
-        return ResponseEntity.ok(apiResponse);
+        return ResponseEntity.ok().body(apiResponse);
     }
 
-    @GetMapping("/getInfo")
+    @GetMapping("/getUserCards")
     @PreAuthorize(value = "hasRole('USER')")
-    public HttpEntity<?> checkHaveCard() {
-        ApiResponse apiResponse = cardService.getAllCards();
-        return ResponseEntity.ok(apiResponse);
+    public HttpEntity<?> getAllCards() {
+        ApiResponse apiResponse = cardService.getAllCardsForUser();
+        return ResponseEntity.ok().body(apiResponse);
+    }
+
+    @GetMapping("/checkCardNumber")
+    @PreAuthorize(value = "hasRole('USER')")
+    public HttpEntity<?>  checkCardWithNumber(@RequestParam String number) {
+        ApiResponse apiResponse = cardService.checkCardNumber(number);
+        return ResponseEntity.ok().body(apiResponse);
     }
 
 }

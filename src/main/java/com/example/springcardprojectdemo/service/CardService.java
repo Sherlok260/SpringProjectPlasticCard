@@ -42,7 +42,7 @@ public class CardService {
 
     int max_card = 5;
 
-    public ApiResponse getAllCards() {
+    public ApiResponse getAllCardsForUser() {
         String email = JwtFilter.getEmailWithToken;
         List<Card> cards = userRepository.findByEmail(email).get().getCards();
         System.out.println(cards);
@@ -51,6 +51,8 @@ public class CardService {
         }
         return new ApiResponse("Cards", true, cards);
     }
+
+
 
     public ApiResponse createCard(CardDto dto) {
         Card newCard = new Card();
@@ -62,7 +64,7 @@ public class CardService {
         newCard.setExp_date("01/27");
         newCard.setBalance(dto.getTypee().equals("Visa") ? 100 : 1000000);
         newCard.setUnit(dto.getTypee().equals("Visa") ? "$" : "uzs");
-        newCard.setNumber(checkCardNumber());
+        newCard.setNumber(checkCardNumberWithOverNumbers());
         newCard.setOwner(user.getFirstName() + " " + user.getLastName());
         try {
             if (user.getCards().size() < max_card) {
@@ -137,7 +139,7 @@ public class CardService {
         }
     }
 
-    public String checkCardNumber() {
+    public String checkCardNumberWithOverNumbers() {
         Card byNumber;
         int number;
         do {
@@ -155,4 +157,15 @@ public class CardService {
         return money / 11000;
     }
 
+    public ApiResponse checkCardNumber(String number) {
+        try {
+            Optional<Card> card = cardRepository.findByCardNumber(number);
+            if (card.isPresent()) {
+                return new ApiResponse("card is available", true);
+            }
+            return new ApiResponse("card not found", false);
+        } catch (Exception e) {
+            return new ApiResponse(e.getMessage(), false);
+        }
+    }
 }
