@@ -50,6 +50,11 @@ public class UserController {
         return ResponseEntity.ok("hello");
     }
 
+    @GetMapping("/hello2")
+    public HttpEntity<?> hello2() {
+        return ResponseEntity.ok().body("Salom hush kelubsiz");
+    }
+
 
     @PostMapping("/register")
     public HttpEntity<?> register(@RequestBody RegisterDto dto) {
