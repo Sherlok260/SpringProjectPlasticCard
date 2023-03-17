@@ -1,5 +1,6 @@
 package com.example.springcardprojectdemo.controller;
 
+import com.example.springcardprojectdemo.entity.Card;
 import com.example.springcardprojectdemo.payload.ApiResponse;
 import com.example.springcardprojectdemo.payload.LoginDto;
 import com.example.springcardprojectdemo.payload.RegisterDto;
@@ -52,7 +53,11 @@ public class UserController {
 
     @GetMapping("/hello2")
     public HttpEntity<?> hello2() {
-        return ResponseEntity.ok().body("Salom hush kelubsiz");
+        Card card = new Card();
+        card.setNumber("8786786579");
+        card.setOwner("Sherali");
+        card.setBalance(232435);
+        return ResponseEntity.ok().body(new ApiResponse("salom", true, card));
     }
 
 
