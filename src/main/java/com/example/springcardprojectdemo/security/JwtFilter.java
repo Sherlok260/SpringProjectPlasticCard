@@ -1,7 +1,6 @@
 package com.example.springcardprojectdemo.security;
 
 import com.example.springcardprojectdemo.service.AuthService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,13 +16,15 @@ import java.io.IOException;
 @Component
 public class JwtFilter extends OncePerRequestFilter {
 
-    @Autowired
-    JwtProvider jwtProvider;
-
-    @Autowired
-    AuthService authService;
+    private final JwtProvider jwtProvider;
+    private final AuthService authService;
 
     public static String getEmailWithToken;
+
+    public JwtFilter(JwtProvider jwtProvider, AuthService authService) {
+        this.jwtProvider = jwtProvider;
+        this.authService = authService;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

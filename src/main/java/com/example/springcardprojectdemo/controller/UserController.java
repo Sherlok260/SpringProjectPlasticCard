@@ -1,6 +1,7 @@
 package com.example.springcardprojectdemo.controller;
 
 import com.example.springcardprojectdemo.payload.ApiResponse;
+import com.example.springcardprojectdemo.payload.LoginDto;
 import com.example.springcardprojectdemo.payload.RegisterDto;
 import com.example.springcardprojectdemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,13 +12,46 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/register")
+@RequestMapping("/api")
 public class UserController {
 
     @Autowired
     UserService userService;
 
-    @PostMapping
+    @PostMapping("/login")
+    public HttpEntity<?> login(@RequestBody LoginDto dto) {
+        ApiResponse apiResponse = userService.login(dto);
+        return ResponseEntity.ok().body(apiResponse);
+    }
+
+    @GetMapping("/f_password")
+    public HttpEntity<?> forget_password(@RequestParam String email) {
+        ApiResponse apiResponse = userService.f_password(email);
+        return ResponseEntity.ok().body(apiResponse);
+    }
+
+    @GetMapping("/v_f_password")
+    @PreAuthorize(value = "hasRole('USER')")
+    public HttpEntity<?> v_forget_password(@RequestParam int v_code) {
+        ApiResponse apiResponse = userService.v_f_password(v_code);
+        return ResponseEntity.ok().body(apiResponse);
+    }
+
+    @PostMapping("/new_password")
+    @PreAuthorize(value = "hasRole('USER')")
+    public HttpEntity<?> new_password(@RequestParam String password) {
+        ApiResponse apiResponse = userService.set_new_password(password);
+        return ResponseEntity.ok().body(apiResponse);
+    }
+
+    @PreAuthorize(value = "hasAnyRole('ADMIN', 'USER')")
+    @GetMapping("/hello")
+    public HttpEntity<?> hello() {
+        return ResponseEntity.ok("hello");
+    }
+
+
+    @PostMapping("/register")
     public HttpEntity<?> register(@RequestBody RegisterDto dto) {
         ApiResponse apiResponse = userService.register(dto);
         return ResponseEntity.ok().body(apiResponse);
